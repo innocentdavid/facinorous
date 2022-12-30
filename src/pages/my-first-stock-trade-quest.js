@@ -10,9 +10,9 @@ const MyFirstStockTradeQuest = () => {
       </Head>
       <div>
         <NavbarComponent />
-        <div className="w-full" style={{height: "60px"}}></div>
-        <div className="px-[15%]">
-          <div className="w-full overflow-x-hidden bg-secondary-50 flex justify-center px-3 md:py-8 text-sm sm:text-base">
+        {/* <div className="w-full" style={{height: "60px"}}></div> */}
+        <div className="">
+          <div className="w-full overflow-x-hidden bg-secondary-50 flex justify-center px-3 lg:px-[18%] md:py-8 text-sm sm:text-base">
             <div className="flex flex-col items-center pt-8 max-w-col-9">
               <h1 className="text-center font-bold text-4xl lg:text-5xl w-full">
                 My First Stock Trade Quest

@@ -5,8 +5,8 @@ import React from "react";
 
 const Broker: NextPage = () => {
   return (
-    <div className='flex flex-col items-center justify-start w-64 sm:w-80 shadow-md px-3 py-8 m-2 bg-white relative rounded border-2 border-success-500'>
-      <div className='absolute flex top-0 bg-success-500 rounded-b pb-0.5'>
+    <div className='flex flex-col items-center justify-start w-64 sm:w-80 shadow-md px-3 py-8 m-2 bg-white relative rounded border-2 border-green-400'>
+      <div className='absolute flex top-0 bg-green-400 rounded-b pb-0.5'>
         <div className='has-tooltip cursor-pointer flex justify-center'>
           <span className='tooltip absolute rounded shadow-lg p-3 bg-gray-100  mt-8 mx-4 max-w-xs bg-secondary-50 text-sm z-50 text-black w-52'>
             This broker is recommended for you because it is a great fit based
@@ -63,7 +63,7 @@ const Broker: NextPage = () => {
                   <div className='h-full border-r border-black last:border-r-0 z-20 w-[25px] sm:w-[25px]'></div>
                   <div className='h-full border-r border-black last:border-r-0 z-20 w-[25px] sm:w-[25px]'></div>
                   <div
-                    className='absolute h-full z-10 bg-success-500'
+                    className='absolute h-full z-10 bg-green-400'
                     style={{ width: "96%" }}
                   ></div>
                 </div>

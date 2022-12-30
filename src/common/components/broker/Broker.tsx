@@ -1,19 +1,28 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NextPage } from "next";
-import React from "react";
+import { useState } from "react";
 
 const Broker: NextPage = () => {
+  const [showWhyReco, setShowWhyReco] = useState<boolean>(false);
+
   return (
     <div className='flex flex-col items-center justify-start w-64 sm:w-80 shadow-md px-3 py-8 m-2 bg-white relative rounded border-2 border-green-400'>
       <div className='absolute flex top-0 bg-green-400 rounded-b pb-0.5'>
         <div className='has-tooltip cursor-pointer flex justify-center'>
-          <span className='tooltip absolute rounded shadow-lg p-3 bg-gray-100  mt-8 mx-4 max-w-xs bg-secondary-50 text-sm z-50 text-black w-52'>
-            This broker is recommended for you because it is a great fit based
-            on answers you gave earlier in the Find My Broker tool. This is one
-            of the top 5 brokers that best fit the preferences you provided.
-          </span>
-          <div className='flex text-white text-xs font-semibold  px-2 items-center gap-1'>
+          {showWhyReco && (
+            <span className='tooltip absolute rounded shadow-lg p-3 bg-gray-100  mt-8 mx-4 max-w-xs bg-secondary-50 text-sm z-50 text-black w-52'>
+              This broker is recommended for you because it is a great fit based
+              on answers you gave earlier in the Find My Broker tool. This is
+              one of the top 5 brokers that best fit the preferences you
+              provided.
+            </span>
+          )}
+          <div
+            className='flex text-white text-xs font-semibold  px-2 items-center gap-1'
+            onMouseEnter={() => setShowWhyReco(true)}
+            onMouseLeave={() => setShowWhyReco(false)}
+          >
             <FontAwesomeIcon icon={faCheck} className='text-sm' />
             Recommended for you
           </div>
@@ -24,7 +33,8 @@ const Broker: NextPage = () => {
           <div
             className='h-8 w-8 mr-4 bg-contain bg-center bg-no-repeat'
             style={{
-              backgroundImage: "url('/images/icons/award_badge.png')"
+              backgroundImage:
+                "url('https://brokerchooser.com/images/icons/award_badge.png')"
             }}
           ></div>
           Best CFD broker
@@ -80,10 +90,10 @@ const Broker: NextPage = () => {
           <div className='flex flex-col items-center mt-7 sm:mt-8'>
             <div className='flex items-center relative w-max flex-col'>
               <a
-                className='flex flex-row items-center justify-center font-medium text-sm uppercase tracking-wider cursor-pointer select-none shadow-bc hover:shadow-bcHover rounded-lg box-border whitespace-nowrap sm:text-sm h-6 sm:h-8 px-[9px] sm:px-[13px] bg-secondary-500 text-white'
+                className='flex flex-row items-center justify-center font-medium text-[10px] uppercase tracking-wider cursor-pointer select-none shadow-bc hover:shadow-bcHover rounded-lg box-border whitespace-nowrap text-[12px]:h-6 sm:h-8 px-[9px] sm:px-[13px] bg-blue text-white'
                 rel='noreferrer nofollow'
                 target='_blank'
-                href='https://brokerchooser.com/go-to-broker/xtb/open-account?measurementCategory=01homepa%2F02notrel%2F03notrel&amp;measurementList=front-page-visit-broker-button'
+                href='#'
               >
                 Visit broker
                 <svg

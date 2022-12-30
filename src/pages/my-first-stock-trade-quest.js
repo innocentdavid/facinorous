@@ -141,7 +141,7 @@ const MyFirstStockTradeQuest = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center p-4 bg-gray-50">
+          <div className="flex justify-center items-center p-4 lg:px-[18%] bg-gray-50">
             <div className="flex flex-col items-center w-full">
               <div id="stage_0" className="pt-16 -mt-16"></div>
               <div className="w-full max-w-col-9 mb-4 rounded bg-white border rounded border-white">

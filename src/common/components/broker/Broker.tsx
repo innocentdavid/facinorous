@@ -113,7 +113,7 @@ const Broker: NextPage = () => {
             <div className='text-xs sm:text-sm mt-4'>
               or{" "}
               <a
-                href='/broker-reviews/xtb-review'
+                href='#'
                 className=' max-w-max cursor-pointer  no-underline transition-all duration-75 text-xs sm:text-sm inline-block'
                 target='_blank'
                 style={{
@@ -121,7 +121,9 @@ const Broker: NextPage = () => {
                     "linear-gradient(rgb(253, 173, 0) 0%, rgb(253, 173, 0) 100%) 0px 100% / 1px 1px repeat-x;"
                 }}
               >
-                <span>Read review</span>
+                <span className='underline decoration-yellow underline-offset-2 hover:bg-orange-400 delay-100 ease-in-out'>
+                  Read review
+                </span>
               </a>
             </div>
           </div>

@@ -7,7 +7,7 @@ const ButtonDropDown: NextPage<{ text: string }> = ({ text }) => {
   const [rotate, setRotate] = useState<boolean>(false);
   return (
     <button
-      className='text-white text-[12px] font-semibold flex gap-1 items-center h-full hover:text-yellow-color hover:border-b-2 border-b-yellow-color'
+      className='text-white text-[16px] min-w-20  font-semibold flex gap-1 items-center h-full hover:text-yellow-color hover:border-b-2 border-b-yellow-color'
       onMouseEnter={() => setRotate(true)}
       onMouseLeave={() => setRotate(false)}
     >

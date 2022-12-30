@@ -11,14 +11,14 @@ const SearchTab = () => {
     e.preventDefault();
   };
   return (
-    <div className='h-16 bg-gray-100 w-full flex items-center justify-center'>
+    <div className='h-16 mt-3 px-2 lg:mt-0 lg:mx-0 bg-gray-100 w-full flex items-center justify-center'>
       <form
-        className='h-full lg:mx-auto flex items-center gap-2 py-[0.5rem] justify-center w-[1140px]'
+        className='h-full lg:mx-auto flex items-center gap-2 py-[0.8rem] justify-center w-[1140px]'
         onSubmit={handleSubmit}
       >
         <input
           type='text'
-          className='h-full w-full p-2 outline-none text-[15px] placeholder:italic border-2 border-gray-300 rounded-md '
+          className='h-full w-full p-2 outline-none text-[16px] placeholder:italic placeholder:text-slate-400 border-2 border-slate-400 rounded-md '
           placeholder='Search by broker names or topics...'
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             FormChange(e, setSearchContent)
@@ -1281,30 +1281,34 @@ const ShowSelectedNav = () => {
             <ul id='follow-us'>
               <li>
                 <a href='https://www.facebook.com/brokerchooser'>
-                  <svg className='icon icon-2x icon-facebook-square'>
-                    <use xlinkHref='#icon-facebook-square'></use>
-                  </svg>
+                  <i
+                    className='fa fa-facebook-square text-2xl '
+                    aria-hidden='true'
+                  ></i>
                 </a>
               </li>
               <li>
                 <a href='https://twitter.com/brokerchooser'>
-                  <svg className='icon icon-2x icon-twitter-square'>
-                    <use xlinkHref='#icon-twitter-square'></use>
-                  </svg>
+                  <i
+                    className='fa fa-twitter-square text-2xl'
+                    aria-hidden='true'
+                  ></i>
                 </a>
               </li>
               <li>
                 <a href='https://www.linkedin.com/company/10527960/'>
-                  <svg className='icon icon-2x icon-linkedin-square'>
-                    <use xlinkHref='#icon-linkedin-square'></use>
-                  </svg>
+                  <i
+                    className='fa fa-linkedin-square text-2xl'
+                    aria-hidden='true'
+                  ></i>
                 </a>
               </li>
               <li>
                 <a href='https://www.youtube.com/channel/UC0uZMULaH5TB7bRq6IuvbBA'>
-                  <svg className='icon icon-2x icon-youtube-square'>
-                    <use xlinkHref='#icon-youtube-square'></use>
-                  </svg>
+                  <i
+                    className='fa fa-youtube-square text-2xl'
+                    aria-hidden='true'
+                  ></i>
                 </a>
               </li>
             </ul>

@@ -148,3 +148,34 @@ object {
   padding: 50px 0;
   color: #919191;
 }
+@media (max-width: 600px) {
+  .bc_footer_container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .bc_footer_container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .bc_footer_container {
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .bc_footer_container {
+    width: auto;
+  }
+}
+
+.bc_footer_container {
+  margin: 0 auto;
+  align-content: center;
+  display: flex;
+}
+.bc_footer_container .bc_footer_nav_col {
+  margin: 10px;
+}

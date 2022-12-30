@@ -23,12 +23,12 @@ const NavbarComponent: NextPage = () => {
         />
         <div className='flex items-center gap-3 h-full'>
           <Link href={"#"}>
-            <button className='text-white font-semibold text-[12px] border border-white rounded-md p-1 px-2 hover:text-yellow hover:border-yellow'>
+            <button className='text-white font-semibold text-[12px] border border-white rounded-md p-1 px-2 hover:text-yellow hover:border-yellow-color'>
               Find My Broker
             </button>
           </Link>
           <Link href={"#"}>
-            <button className='text-white font-semibold text-[12px] border border-white rounded-md p-1 px-2 hover:text-yellow hover:border-yellow'>
+            <button className='text-white font-semibold text-[12px] border border-white rounded-md p-1 px-2 hover:text-yellow-color hover:border-yellow-color'>
               Find My First Stock
             </button>
           </Link>
@@ -41,7 +41,7 @@ const NavbarComponent: NextPage = () => {
           {searchComponent && (
             <FontAwesomeIcon
               icon={faSearch}
-              className='text-sm text-white hover:text-yellow cursor-pointer'
+              className='text-sm text-white hover:text-yellow-color cursor-pointer'
               onClick={() => setSeachComponent(true)}
             />
           )}

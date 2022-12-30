@@ -121,7 +121,7 @@ const Broker: NextPage = () => {
                     "linear-gradient(rgb(253, 173, 0) 0%, rgb(253, 173, 0) 100%) 0px 100% / 1px 1px repeat-x;"
                 }}
               >
-                <span className='underline decoration-yellow underline-offset-2 hover:bg-orange-400 delay-100 ease-in-out'>
+                <span className='underline-offset-2 hover:bg-orange-400 delay-100 ease-in-out'>
                   Read review
                 </span>
               </a>

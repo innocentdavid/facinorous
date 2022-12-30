@@ -5,6 +5,7 @@ import Head from "next/head";
 import NavbarComponent from "../common/components/navbar/NavbarComponent";
 import ShowSelectedNav from "../common/components/show/ShowSelectedNav";
 import ChooseBroker from "../common/components/broker/ChooseBroker";
+import BestOnlineBroker from "../common/components/broker/BestOnlineBrokers";
 const HomePage: NextPage = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const HomePage: NextPage = () => {
         <NavbarComponent />
         <ShowSelectedNav />
         <ChooseBroker />
+        <BestOnlineBroker />
       </div>
     </>
   );

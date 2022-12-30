@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         yellow: "#F0BF4C",
-        blue: "#3079ed"
+        blue: "#3079ed",
+        "success-500": "rgb(79, 255, 138)"
       }
     }
   },

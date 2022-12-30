@@ -26,8 +26,8 @@ const ChooseBroker: NextPage = () => {
       <Image
         src={"/assets/touch_screen.svg"}
         alt='Touch Screen'
-        width={"400"}
-        height={"400"}
+        width={"450"}
+        height={"450"}
       />
     </div>
   );

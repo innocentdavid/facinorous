@@ -2,6 +2,10 @@
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      'Geomanist': ['"Geomanist"', 'sans-serif'],
+      'geomanistregular': ['geomanistregular', 'sans-serif'],
+    },
     extend: {
       colors: {
         "yellow-color": "#F0BF4C",

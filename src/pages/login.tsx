@@ -106,7 +106,7 @@ export default function Login() {
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
                                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                                     <FaUser size="20px" />
-                                    <input required type="number" name="username" id="lusername" className="w-full bg-transparent outline-none border-none"
+                                    <input required type="text" name="username" id="lusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setLoginDetails({ ...loginDetails, username: e.target.value }) }}
                                         value={loginDetails.username} />
                                 </div>
@@ -140,7 +140,7 @@ export default function Login() {
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
                                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                                     <FaUser size="20px" />
-                                    <input required type="number" name="username" id="redusername" className="w-full bg-transparent outline-none border-none"
+                                    <input required type="text" name="username" id="redusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setUserDetails({ ...userDetails, username: e.target.value }) }}
                                         value={userDetails.username} />
                                 </div>

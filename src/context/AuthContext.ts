@@ -47,18 +47,90 @@ export const sampleAppContext: AppSettingsType = {
 }; // get the data from backend.
 
 
-export const AuthContext = createContext({
-    unid: String,
-    username: String,
-    passhash: String,
-    token: String,
-    admin: Boolean,
+// const AuthContext = createContext({
+//     unid: String,
+//     username: String,
+//     passhash: String,
+//     token: String,
+//     admin: Boolean,
+//     meta: {}
+// })
+
+const AuthContext = createContext({
+    unid: '',
+    username: '',
+    passhash: '',
+    token: '',
+    admin: false,
     meta: {}
 })
 
+function request<TResponse>(
+    url: string,
+    // `RequestInit` is a type for configuring 
+    // a `fetch` request. By default, an empty object.
+    config: RequestInit = {}
+
+    // This function is async, it will return a Promise:
+): Promise<TResponse> {
+
+    // Inside, we call the `fetch` function with 
+    // a URL and config given:
+    return fetch(url, config)
+        // When got a response call a `json` method on it
+        .then((response) => response.json())
+        // and return the result data.
+        .then((data) => data as TResponse);
+
+    // We also can use some post-response
+    // data-transformations in the last `then` clause.
+}
+
+export const login = async (username: string, password: string) => {
+    const headers: Record<string, string> = { "Content-Type": "application/json" }
+    try {
+        const token = await request<User>(`${API_URL}/user/password/check`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ username, password })
+        })
+        return token
+    } catch (error) {
+        throw new Error("Fetching users failed")
+    }
+}
+
+export const getAllUsers = async () => {
+    try {
+        const cuser = await request<User>(`${API_URL}/user`)
+        return cuser
+    } catch (error) {
+        throw new Error("Fetching users failed")
+    }
+}
+
+export const getCurrentUser = async (userToken: string) => {
+    const headers = { "Authorization": userToken }
+    try {
+        const currentUser = await request<User>(`${API_URL}/user/self`, { headers })
+        return currentUser
+    } catch (error) {
+        throw new Error("Fetching users failed")
+    }
+}
+
+export const getUser = async (userToken: string) => {
+    try {
+        const user = await request<User>(`${API_URL}/user/token/${userToken}`)
+        return user
+    } catch (error) {
+        throw new Error("Fetching users failed")
+    }
+}
+
 export const AuthContextProvider = () => {
     const router = useRouter()
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState<User>()
     const { status, data } = useSession({
         required: true,
         onUnauthenticated() {
@@ -68,82 +140,27 @@ export const AuthContextProvider = () => {
     });
     const [loading, setLoading] = useState(true)
 
-    function request<TResponse>(
-        url: string,
-        // `RequestInit` is a type for configuring 
-        // a `fetch` request. By default, an empty object.
-        config: RequestInit = {}
-
-        // This function is async, it will return a Promise:
-    ): Promise<TResponse> {
-
-        // Inside, we call the `fetch` function with 
-        // a URL and config given:
-        return fetch(url, config)
-            // When got a response call a `json` method on it
-            .then((response) => response.json())
-            // and return the result data.
-            .then((data) => data as TResponse);
-
-        // We also can use some post-response
-        // data-transformations in the last `then` clause.
-    }
-
-
     useEffect(() => {
         if (status === 'unauthenticated') {
-            setLoading(false)
             router.replace('/login')
         }
 
         if (data && data?.user?.token) {
-            const dataN = data?.user?.token
-            // var u = { ...dataN, myTicket: 0, balance: dataN.tbalance + dataN.ri + dataN.vrs }
-            // if (dataN.myTicket) {
-            //   u = { ...dataN, myTicket: dataN.myTicket, balance: dataN.tbalance + dataN.ri + dataN.roi + dataN.vrs }
-            // }
-            // dataN?.tel && setUser(u)
-
-            
-
-            const getAllUsers = async () => {
-                try {
-                    const cuser = await request<User>(`${API_URL}/user`)
-                    return cuser
-                } catch (error) {
-                    throw new Error("Fetching users failed")
-                }
-            }
-
-            const getUser = async (userToken: string) => {
-                try {
-                    const user = await request<User>(`${API_URL}/user/token/${userToken}`)
-                    return user
-                } catch (error) {
-                    throw new Error("Fetching users failed")
-                }
-            }
-
+            const token = data?.user?.userToken
             const fetch = async () => {
-                const cuser = await request<User>(`${API_URL}`, {
-
-                });
-
-                if (cuser) {
-                    // var u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi + cuser?.vrs }
-                    // if (!cuser.myTicket) {
-                    //   u = { ...cuser, myTicket: 0, balance: cuser.tbalance + cuser.ri + cuser.roi + cuser?.vrs }
-                    // }
-                    // // console.log(u)
-                    setUser(cuser)
-                }
+                const currentUser = await getCurrentUser(token)
+                currentUser && setUser(currentUser)
             }
+
             fetch()
-            setLoading(false)
         }
-        setLoading(false)
     }, [status, data, router])
 
     return (
-        <AuthContext.Provider value= {{ user, setUser }
+        <AuthContext.Provider value= {{ user, setUser }}> 
+            { children }
+        </AuthContext.Provider>
+    )
 }>
+
+export default AuthContext

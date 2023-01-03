@@ -44,12 +44,12 @@ export function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<authContextType>();
   const { status, data } = useSession({
     required: true,
-    onUnauthenticated() {
-      // The user is not authenticated, handle it here.
-      // route to login page
-    //   console.log("The user is not authenticated");
-      // router.push('/login')
-    },
+    // onUnauthenticated() {
+    //   // The user is not authenticated, handle it here.
+    //   // route to login page
+    // //   console.log("The user is not authenticated");
+    //   // router.push('/login')
+    // },
   });
 
   const login = () => {};

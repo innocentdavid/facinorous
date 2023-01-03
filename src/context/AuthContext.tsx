@@ -98,7 +98,7 @@ export const login = async (username: string, password: string) => {
   try {
     const user = {
       unid: '0536fb969b9c15d82c36db99a90d2baa',
-      username: 'david',
+      username: username,
       passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
       token: "0536fb969b9c15d82c36db99a90d2baa",
       admin: false,
@@ -167,7 +167,7 @@ export const register = async (
     // });
     const user = {
       unid: '0536fb969b9c15d82c36db99a90d2baa',
-      username: 'david',
+      username: username,
       passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
       token: "0536fb969b9c15d82c36db99a90d2baa",
       admin: false,

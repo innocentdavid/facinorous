@@ -56,14 +56,14 @@ export const sampleAppContext: AppSettingsType = {
 //     meta: {}
 // })
 
-const AuthContext = createContext({
-    unid: '',
-    username: '',
-    passhash: '',
-    token: '',
-    admin: false,
-    meta: {}
-})
+// const AuthContext = createContext({
+//     unid: '',
+//     username: '',
+//     passhash: '',
+//     token: '',
+//     admin: false,
+//     meta: {}
+// })
 
 function request<TResponse>(
     url: string,
@@ -128,7 +128,7 @@ export const getUser = async (userToken: string) => {
     }
 }
 
-export const AuthContextProvider = () => {
+const AuthContext = () => {
     const router = useRouter()
     const [user, setUser] = useState<User>()
     const { status, data } = useSession({
@@ -154,12 +154,6 @@ export const AuthContextProvider = () => {
             fetch()
         }
     }, [status, data, router])
-
-    return (
-        <AuthContext.Provider value = {{ user, setUser }}> 
-            { children }
-        </AuthContext.Provider>
-    )
 }
 
 export default AuthContext

@@ -1,16 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
 import { NextPage } from "next";
 import React from "react";
-import Head from "next/head";
-import ShowSelectedNav from "../common/components/show/ShowSelectedNav";
+import { useAuth } from "../context/AuthContext";
+
 const HomePage: NextPage = () => {
+  const { user} = useAuth();
+  console.log(user);  
+
   return (
     <>
-      <Head>
-        <title>BrokerChooser: Find quality online brokers in minutes</title>
-      </Head>
       <div>
-        <ShowSelectedNav />
+        hello
       </div>
     </>
   );

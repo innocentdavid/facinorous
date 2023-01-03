@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { FaUser } from 'react-icons/fa'
 import { BsLock } from 'react-icons/bs'
 import { login, register } from '../context/AuthContext';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function Login() {
     const router = useRouter()
+    const { data: session, status } = useSession()
     const [loginDetails, setLoginDetails] = useState({ username: '', password: '' })
     const [userDetails, setUserDetails] = useState({ username: '', password: '', cPassword: '' })
     const tabsData = [
@@ -18,12 +20,18 @@ export default function Login() {
         e.preventDefault();
         document.querySelector('#generalLoading').classList.remove('hidden')
         document.querySelector('#generalLoading').classList.add('grid')
-        const res = await login(loginDetails.username, loginDetails.password);
-        if(res.admin){
-            router.push('/admindashboard')
-            return;
-        }
-        if (res.token) {
+        const res = await signIn("credentials", {
+            username: loginDetails.username,
+            password: loginDetails.password,
+            redirect: false,
+        });
+        // const res = await login(loginDetails.username, loginDetails.password);
+        // console.log(res);
+        if (res.status === 200) {            
+            if(session?.user?.admin){
+                router.push('/admindashboard')
+                return;
+            }
             router.push('/')
             document.querySelector('#generalLoading').classList.remove('grid')
             document.querySelector('#generalLoading').classList.add('hidden')
@@ -46,8 +54,8 @@ export default function Login() {
 
         const data = { username: userDetails.username, password: userDetails.password }
         try {
-            const response = await register(data.username, data.password);
-            if (response.token) {
+            const user = await register(data.username, data.password);
+            if (user) {
                 alert("You have been registered successfully!, login to continue")
                 setActiveTabIndex(0)
                 document.querySelector('#generalLoading').classList.remove('grid')
@@ -71,9 +79,9 @@ export default function Login() {
 
     return (
         <div className="h-screen overflow-x-hidden overflow-y-auto">
-            <header className="h-[28%] flex flex-col justify-end px-5 bg-[#ffa600] ">
+            <header className="h-[28%] flex flex-col justify-end px-5 bg-emerald-500 ">
                 <div className="grid place-items-center">
-                    <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">FACINOROUS</div>
+                    <div className="bg-[#fff] text-emerald-500 font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">FACINOROUS</div>
                 </div>
 
                 <div className="mt-5 flex items-center justify-around text-white text-lg font-bold">
@@ -104,7 +112,7 @@ export default function Login() {
                                 value={loginDetails.username} />
                             <div className="">
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
-                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-emerald-300/20 text-black">
                                     <FaUser size="20px" />
                                     <input required type="text" name="username" id="lusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setLoginDetails({ ...loginDetails, username: e.target.value }) }}
@@ -114,7 +122,7 @@ export default function Login() {
 
                             <div className="mt-5">
                                 <p className="font-[fona] font-bold text-[16px] text-[#9e9292] mb-1 ">Password</p>
-                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-emerald-300/20 text-black">
                                     <BsLock size="20px" />
                                     <input required type="password" name="password" id="lPassword" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
@@ -122,7 +130,7 @@ export default function Login() {
                                 </div>
                             </div>
 
-                            <div className="mt-10 py-2 px-4 rounded-[10px] bg-[#ffa600] text-white font-bold text-lg ">
+                            <div className="mt-10 py-2 px-4 rounded-[10px] bg-emerald-500 text-white font-bold text-lg ">
                                 <input required type="submit" value="Log in" className="w-full bg-transparent outline-none border-none cursor-pointer"
                                     onClick={handleLogIn}
                                 />
@@ -138,7 +146,7 @@ export default function Login() {
                                 value={userDetails.username} />
                             <div className="">
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
-                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-emerald-300/20 text-black">
                                     <FaUser size="20px" />
                                     <input required type="text" name="username" id="redusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setUserDetails({ ...userDetails, username: e.target.value }) }}
@@ -148,7 +156,7 @@ export default function Login() {
 
                             <div className="mt-5">
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
-                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-emerald-300/20 text-black">
                                     <BsLock size="20px" />
                                     <input required type="password" name="password" id="RegPassword" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
@@ -158,7 +166,7 @@ export default function Login() {
 
                             <div className="mt-5">
                                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Confirm Password</p>
-                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-emerald-300/20 text-black">
                                     <BsLock size="20px" />
                                     <input required type="password" name="cpassword" id="cRegPassword" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
@@ -166,7 +174,7 @@ export default function Login() {
                                 </div>
                             </div>
 
-                            <div className="mt-10 py-2 px-4 rounded-[10px] bg-[#ffa600] text-white font-bold text-lg ">
+                            <div className="mt-10 py-2 px-4 rounded-[10px] bg-emerald-500 text-white font-bold text-lg ">
                                 <input required type="submit" value="Sign up" className="w-full bg-transparent outline-none border-none"
                                     onClick={handleSignUp}
                                 />

@@ -12,11 +12,11 @@ export default NextAuth({
             credentials: {},
             async authorize(credentials, req) {
                 const { username, password } = credentials
-                const user = await login(username, password);
+                return { token: await login(username, password) }
             }
         })
     ],
-    secret: process.env.SECRET || 'this_will_be_a_secret',
+    secret: process.env.NEXTAUTH_SECRET || 'this_will_be_a_secret',
 
     session: {
         strategy: "jwt",
@@ -26,14 +26,15 @@ export default NextAuth({
         maxAge: 24 * 60 * 60,
     },
     callbacks: {
-        jwt: async ({ token, user }) => {
-            console.log(token, user);
+        jwt: async ({ token, user, isNewUser }) => {
+            // console.log({ token, line: "line30", user, isNewUser });
             user && (token.user = user);
             return token;
         },
         session: async ({ session, token }) => {
-            console.log(session, token);
-            session.user = token.user;  // Setting token in session
+            // console.log({session, token});
+            session.user = token.user.token;  // Setting token in session
+            // console.log(session);
             return session;
         },
     },

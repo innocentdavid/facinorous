@@ -42,15 +42,10 @@ type Props = {
 export function AuthProvider({ children }: Props) {
   const router = useRouter();
   const [user, setUser] = useState<authContextType>();
-  const { status, data } = useSession({
-    required: true,
-    // onUnauthenticated() {
-    //   // The user is not authenticated, handle it here.
-    //   // route to login page
-    // //   console.log("The user is not authenticated");
-    //   // router.push('/login')
-    // },
-  });
+  const { data: session, status } = useSession();
+  // console.log(session, status);
+  
+  
 
   const login = () => {};
 
@@ -58,22 +53,22 @@ export function AuthProvider({ children }: Props) {
     setUser(undefined);
   };
 
-  useEffect(() => {
-    // console.log(status);
+  // useEffect(() => {
+  //   // console.log(status);
 
-    // if (status === 'unauthenticated') {
-    //     router.replace('/login')
-    // }
+  //   // if (status === 'unauthenticated') {
+  //   //     router.replace('/login')
+  //   // }
 
-    if (data && data?.user?.token) {
-      const token = data?.user?.userToken;
-      const fetch = async () => {
-        const currentUser = await getCurrentUser(token);
-        currentUser && setUser(currentUser);
-      };
-      fetch();
-    }
-  }, [status, data, router]);
+  //   if (data && data?.user?.token) {
+  //     const token = data?.user?.userToken;
+  //     const fetch = async () => {
+  //       const currentUser = await getCurrentUser(token);
+  //       currentUser && setUser(currentUser);
+  //     };
+  //     fetch();
+  //   }
+  // }, [status, data, router]);
 
   const value = {
     user,
@@ -101,15 +96,23 @@ export const login = async (username: string, password: string) => {
     "Content-Type": "application/json",
   };
   try {
-    const token = await request<authContextType>(
-      `${API_URL}/user/password/check`,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ username, password }),
-      }
-    );
-    return token;
+    const user = {
+      unid: '0536fb969b9c15d82c36db99a90d2baa',
+      username: 'david',
+      passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
+      token: "0536fb969b9c15d82c36db99a90d2baa",
+      admin: false,
+      meta: {}
+    };
+    // const user = await request<authContextType>(
+    //   `${API_URL}/user/password/check`,
+    //   {
+    //     method: "POST",
+    //     headers,
+    //     body: JSON.stringify({ username, password }),
+    //   }
+    // );
+    return user;
   } catch (error) {
     throw new Error("Fetching users failed");
   }
@@ -157,11 +160,19 @@ export const register = async (
     ? { "Content-Type": "application/json", Authorization: token }
     : { "Content-Type": "application/json" };
   try {
-    const user = await request<authContextType>(`${API_URL}/user`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({ username, password, admin }),
-    });
+    // const user = await request<authContextType>(`${API_URL}/user`, {
+    //   method: "POST",
+    //   headers: headers,
+    //   body: JSON.stringify({ username, password, admin }),
+    // });
+    const user = {
+      unid: '0536fb969b9c15d82c36db99a90d2baa',
+      username: 'david',
+      passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
+      token: "0536fb969b9c15d82c36db99a90d2baa",
+      admin: false,
+      meta: {}
+    };
     return user;
   } catch (error) {
     throw new Error("Registration failed");

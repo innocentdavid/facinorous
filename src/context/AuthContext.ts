@@ -138,12 +138,11 @@ export const AuthContextProvider = () => {
             console.log("The user is not authenticated")
         },
     });
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.replace('/login')
-        }
+        // if (status === 'unauthenticated') {
+        //     router.replace('/login')
+        // }
 
         if (data && data?.user?.token) {
             const token = data?.user?.userToken
@@ -157,10 +156,10 @@ export const AuthContextProvider = () => {
     }, [status, data, router])
 
     return (
-        <AuthContext.Provider value= {{ user, setUser }}> 
+        <AuthContext.Provider value = {{ user, setUser }}> 
             { children }
         </AuthContext.Provider>
     )
-}>
+}
 
 export default AuthContext

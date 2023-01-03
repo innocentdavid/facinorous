@@ -41,8 +41,8 @@ export function AuthProvider({ children }: Props) {
         onUnauthenticated() {
             // The user is not authenticated, handle it here.
             // route to login page
-            // console.log("The user is not authenticated")
-            // router.replace('/login')
+            console.log("The user is not authenticated")
+            router.replace('/login')
         },
     });
 

@@ -1,7 +1,6 @@
-// import { getSession, signIn, providers, csrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { BsPhone, BsLock } from 'react-icons/bs'
+import { BsUser, BsLock } from 'react-icons/bs'
 import { login, register } from '../context/AuthContext';
 
 export default function Login() {
@@ -19,6 +18,10 @@ export default function Login() {
         document.querySelector('#generalLoading').classList.remove('hidden')
         document.querySelector('#generalLoading').classList.add('grid')
         const res = await login(loginDetails.username, loginDetails.password);
+        if(res.admin){
+            router.push('/admindashboard')
+            return;
+        }
         if (res.token) {
             router.push('/')
             document.querySelector('#generalLoading').classList.remove('grid')
@@ -99,9 +102,9 @@ export default function Login() {
                             <input required type="hidden" name="username" id="lUsername" className="w-full bg-transparent outline-none border-none"
                                 value={loginDetails.username} />
                             <div className="">
-                                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
+                                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
                                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
-                                    <BsPhone size="20px" />
+                                    <BsUser size="20px" />
                                     <input required type="number" name="username" id="lusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setLoginDetails({ ...loginDetails, username: e.target.value }) }}
                                         value={loginDetails.username} />
@@ -133,9 +136,9 @@ export default function Login() {
                             <input required type="hidden" name="username" id="lUsername" className="w-full bg-transparent outline-none border-none"
                                 value={userDetails.username} />
                             <div className="">
-                                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
+                                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">User Name</p>
                                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
-                                    <BsPhone size="20px" />
+                                    <BsUser size="20px" />
                                     <input required type="number" name="username" id="redusername" className="w-full bg-transparent outline-none border-none"
                                         onChange={(e) => { setUserDetails({ ...userDetails, username: e.target.value }) }}
                                         value={userDetails.username} />

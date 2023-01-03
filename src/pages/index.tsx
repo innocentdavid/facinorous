@@ -23,7 +23,7 @@ const HomePage: NextPage = () => {
       // console.log(user);
       return (
         <div className="flex items-center gap-10 p-10">
-          <div>Hello, <span className="capitalize">{session.user.username}</span></div>
+          <div>Hello <span className="capitalize">{session.user.username}</span></div>
           <div className="cursor-pointer bg-emerald-500 text-white py-1 px-3" onClick={() => signOut()}>SignOut</div>
         </div>
       );

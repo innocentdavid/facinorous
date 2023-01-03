@@ -36,12 +36,13 @@ type Props = {
 export function AuthProvider({ children }: Props) {
     const router = useRouter()
     const [user, setUser] = useState<authContextType>();
-    const { status, data } = useSession<any>({
+    const { status, data } = useSession({
         required: true,
         onUnauthenticated() {
             // The user is not authenticated, handle it here.
             // route to login page
-            console.log("The user is not authenticated")
+            // console.log("The user is not authenticated")
+            // router.replace('/login')
         },
     });
 
@@ -53,9 +54,11 @@ export function AuthProvider({ children }: Props) {
     };
 
     useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.replace('/login')
-        }
+        // console.log(status);
+        
+        // if (status === 'unauthenticated') {
+        //     router.replace('/login')
+        // }
 
         if (data && data?.user?.token) {
             const token = data?.user?.userToken
@@ -131,5 +134,19 @@ export const getUser = async (userToken: string) => {
         return user
     } catch (error) {
         throw new Error("Fetching users failed")
+    }
+}
+
+export const register = async (username: string, password: string, admin = false, token?: string) => {
+    const headers: Record<string, string> = token ? { "Content-Type": "application/json", "Authorization": token } : { "Content-Type": "application/json" }
+    try {
+        const user = await request<authContextType>(`${API_URL}/user`, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ username, password, admin })
+        })
+        return user
+    } catch (error) {
+        throw new Error("Registration failed")
     }
 }

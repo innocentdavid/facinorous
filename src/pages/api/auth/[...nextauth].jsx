@@ -25,24 +25,14 @@ export default NextAuth({
     jwt: {
         maxAge: 24 * 60 * 60,
     },
-    pages: {
-        signIn: '/login',
-        // signUp: '/login',
-        newUser: '/login'
-    },
-    session: {
-        strategy: "jwt",
-        maxAge: 24 * 60 * 60,
-    },
-    jwt: {
-        maxAge: 24 * 60 * 60,
-    },
     callbacks: {
         jwt: async ({ token, user }) => {
+            console.log(token, user);
             user && (token.user = user);
             return token;
         },
         session: async ({ session, token }) => {
+            console.log(session, token);
             session.user = token.user;  // Setting token in session
             return session;
         },

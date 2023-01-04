@@ -66,7 +66,7 @@ export function AuthProvider({ children }: Props) {
         // console.log(res);
         
         if (res.status === 500) {
-          alert(res.message);
+          // alert(res.message);
           router.push('/login')
           return;
         }
@@ -74,10 +74,11 @@ export function AuthProvider({ children }: Props) {
       };
       fetch();
     }
-  }, [session]);
+  }, [router, session]);
 
   const value = {
     user,
+    setUser,
     login,
     logout,
   };

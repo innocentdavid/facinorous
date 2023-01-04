@@ -7,7 +7,7 @@ async function jsonResRequest<TResponse>(
     url: string,
     config: RequestInit = {}
 ): Promise<TResponse> {
-    return await fetch(url, config)
+    return fetch(url, config)
         .then((response) => response.json())
         .then((data) => {
             return data as TResponse
@@ -18,7 +18,7 @@ async function textResRequest<TResponse>(
     url: string,
     config: RequestInit = {}
 ): Promise<TResponse> {
-    return await fetch(url, config)
+    return fetch(url, config)
         .then((response) => response.text())
         .then((data) => {
             console.log({ data });

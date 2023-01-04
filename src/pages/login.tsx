@@ -2,12 +2,14 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa'
 import { BsLock } from 'react-icons/bs'
-import { register } from '../context/AuthContext';
-import { signIn, useSession } from 'next-auth/react';
+import { register, useAuth } from '../context/AuthContext';
+import { getSession, signIn, useSession } from 'next-auth/react';
+import { getCurrentUser } from './functions';
 
 export default function Login() {
     const router = useRouter()
     const { data: session, status } = useSession()
+    const { setUser } = useAuth();
     const [loginDetails, setLoginDetails] = useState({ username: '', password: '' })
     const [userDetails, setUserDetails] = useState({ username: '', password: '', cPassword: '' })
     const tabsData = [
@@ -27,17 +29,36 @@ export default function Login() {
         });
         // const res = await login(loginDetails.username, loginDetails.password);
         // console.log(res);
-        if (res.status === 200) {            
-            if(session?.user?.admin){
-                router.push('/admindashboard')
+        if (res.status === 200) {
+            const session = await getSession();            
+            const token = session?.user;
+            const res = await getCurrentUser(token);
+            if (res.status === 500) {
+                // alert(res.message);
                 return;
             }
-            router.push('/')
-            document.querySelector('#generalLoading').classList.remove('grid')
-            document.querySelector('#generalLoading').classList.add('hidden')
+            res.status === 200 && setUser(res.currentUser);
+            // console.log(res?.currentUser?.admin);
+            
+            if (res?.currentUser?.admin) {
+                // console.log(res?.currentUser?.admin);
+                
+                router.push('/admindashboard')
+                document.querySelector('#generalLoading').classList.remove('grid')
+                document.querySelector('#generalLoading').classList.add('hidden')
+                return;
+            } else if (res?.currentUser.token) {
+                router.push('/')
+                document.querySelector('#generalLoading').classList.remove('grid')
+                document.querySelector('#generalLoading').classList.add('hidden')
+            } else {
+                console.log(res)
+                document.querySelector('#generalLoading').classList.remove('grid')
+                document.querySelector('#generalLoading').classList.add('hidden')
+            }
             return;
         }
-        // console.log(res)
+        console.log(res)
         // res.error && alert(res.error)
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
@@ -60,7 +81,7 @@ export default function Login() {
                 setActiveTabIndex(0)
                 document.querySelector('#generalLoading').classList.remove('grid')
                 document.querySelector('#generalLoading').classList.add('hidden')
-            }else {
+            } else {
                 alert("An error occured, please check your connection")
                 // console.log(await response.json())
                 document.querySelector('#generalLoading').classList.remove('grid')

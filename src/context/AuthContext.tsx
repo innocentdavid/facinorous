@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -44,37 +44,44 @@ type Props = {
 export function AuthProvider({ children }: Props) {
   const router = useRouter();
   const [user, setUser] = useState<UserType>();
-  const { data: session, status } = useSession();
-  // console.log(session, status);
-
-
+  const { data, status } = useSession();
 
   const login = () => { };
 
   const logout = () => {
     signOut()
     setUser(undefined);
+    router.push('/login')
   };
 
+
   useEffect(() => {
-    if (session && session?.user) {
-      const token = session.user;
+    const fetch = async () => {
+      const session = await getSession();
+      // console.log(session);
+      const user = session?.user
+      setUser(user);
       // console.log(token);
 
-      const fetch = async () => {
-        const res = await getCurrentUser(token);
-        // console.log(res);
-        
-        if (res.status === 500) {
-          // alert(res.message);
-          router.push('/login')
-          return;
-        }
-        res && setUser(res.currentUser);
-      };
-      fetch();
+      // if (token === "Incorrect password") {
+      //   return;
+      // }
+      // if (token === "User not found") {
+      //   return;
+      // }
+
+      // const res = await getCurrentUser(token);
+
+      // if (res.status === 500) {
+      //   console.log(res.message);
+      //   router.push('/login');
+      //   return;
+      // }
+      // res && setUser(res.currentUser);
     }
-  }, [router, session]);
+    !user && fetch();
+    // }
+  }, [router, user]);
 
   const value = {
     user,

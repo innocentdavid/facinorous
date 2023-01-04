@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { login } from "../../functions";
+import { getCurrentUser, login } from "../../functions";
 // import { login } from "../../../context/AuthContext";
 
 // For more information on each option (and a full list of options) go to
@@ -14,7 +14,16 @@ export default NextAuth({
             async authorize(credentials, req) {
                 const { username, password } = credentials
                 const token = await login(username, password)
-                return { token }
+                console.log(token);
+                if (token === "Incorrect password") {
+                    return { token: null }
+                }
+                if (token === "User not found") {
+                    return { token: null }
+                }
+                
+                const res = await getCurrentUser(token);
+                return { token: res.currentUser }
             }
         })
     ],

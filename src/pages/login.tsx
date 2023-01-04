@@ -30,35 +30,63 @@ export default function Login() {
         // const res = await login(loginDetails.username, loginDetails.password);
         // console.log(res);
         if (res.status === 200) {
-            const session = await getSession();            
-            const token = session?.user;
-            const res = await getCurrentUser(token);
-            if (res.status === 500) {
-                // alert(res.message);
-                return;
-            }
-            res.status === 200 && setUser(res.currentUser);
-            // console.log(res?.currentUser?.admin);
-            
-            if (res?.currentUser?.admin) {
-                // console.log(res?.currentUser?.admin);
-                
+            const session = await getSession();
+            const user = session?.user;
+            setUser(user)
+            if (user?.admin) {
                 router.push('/admindashboard')
                 document.querySelector('#generalLoading').classList.remove('grid')
                 document.querySelector('#generalLoading').classList.add('hidden')
                 return;
-            } else if (res?.currentUser.token) {
+            } else if (user?.token) {
                 router.push('/')
                 document.querySelector('#generalLoading').classList.remove('grid')
                 document.querySelector('#generalLoading').classList.add('hidden')
-            } else {
-                console.log(res)
-                document.querySelector('#generalLoading').classList.remove('grid')
-                document.querySelector('#generalLoading').classList.add('hidden')
+            }else{
+                console.log(user);
+                
             }
-            return;
+            // console.log(token);
+            // console.log(token === "Incorrect password");
+            // console.log(token === "User not found");
+            // console.log(token !== "Incorrect password" && token !== "User not found");
+
+            // if (token !== "Incorrect password" && token !== "User not found") {
+            //     console.log(token);
+            //     document.querySelector('#generalLoading').classList.remove('grid')
+            //     document.querySelector('#generalLoading').classList.add('hidden')
+            // const res = await getCurrentUser(token);
+            // if (res.status === 500) {
+            //     console.log(res.message);
+            //     return;
+            // }
+            // res.status === 200 && setUser(res.currentUser);
+            // // console.log(res?.currentUser?.admin);
+
+            // if (res?.currentUser?.admin) {
+            //     // console.log(res?.currentUser?.admin);
+
+            //     router.push('/admindashboard')
+            //     document.querySelector('#generalLoading').classList.remove('grid')
+            //     document.querySelector('#generalLoading').classList.add('hidden')
+            //     return;
+            // } else if (res?.currentUser.token) {
+            //     router.push('/')
+            //     document.querySelector('#generalLoading').classList.remove('grid')
+            //     document.querySelector('#generalLoading').classList.add('hidden')
+            // } else {
+            //     console.log(res)
+            //     document.querySelector('#generalLoading').classList.remove('grid')
+            //     document.querySelector('#generalLoading').classList.add('hidden')
+            // }
+            // } else {
+            //     alert("User not found!");
+            //     document.querySelector('#generalLoading').classList.remove('grid')
+            //     document.querySelector('#generalLoading').classList.add('hidden')
+            //     return;
+            // }
         }
-        console.log(res)
+        // console.log(res)
         // res.error && alert(res.error)
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')

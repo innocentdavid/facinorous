@@ -26,7 +26,7 @@ const HomePage: NextPage = () => {
             
             return (
                 <div className="flex items-center gap-10 p-10">
-                    <div>Hello <span className="capitalize">{session.user.username},</span> Welcome to the admin dashboard!</div>
+                    <div>Hello <span className="capitalize">{session?.user?.username},</span> Welcome to the admin dashboard!</div>
                     <div className="cursor-pointer bg-emerald-500 text-white py-1 px-3" onClick={() => signOut()}>SignOut</div>
                 </div>
             );

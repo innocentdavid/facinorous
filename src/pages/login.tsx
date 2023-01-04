@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa'
 import { BsLock } from 'react-icons/bs'
-import { login, register } from '../context/AuthContext';
+import { register } from '../context/AuthContext';
 import { signIn, useSession } from 'next-auth/react';
 
 export default function Login() {
@@ -69,7 +69,6 @@ export default function Login() {
             }
         } catch (err) {
             console.log(err)
-            console.log(await err.json())
             document.querySelector('#generalLoading').classList.remove('grid')
             document.querySelector('#generalLoading').classList.add('hidden')
         }

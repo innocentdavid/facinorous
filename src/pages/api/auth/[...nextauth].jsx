@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { login } from "../../../context/AuthContext";
+import { login } from "../../functions";
+// import { login } from "../../../context/AuthContext";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -12,7 +13,8 @@ export default NextAuth({
             credentials: {},
             async authorize(credentials, req) {
                 const { username, password } = credentials
-                return { token: await login(username, password) }
+                const token = await login(username, password)
+                return { token }
             }
         })
     ],
@@ -34,7 +36,7 @@ export default NextAuth({
         session: async ({ session, token }) => {
             // console.log({session, token});
             session.user = token.user.token;  // Setting token in session
-            // console.log(session);
+            // console.log({session});
             return session;
         },
     },

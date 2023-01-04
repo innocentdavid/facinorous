@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -7,29 +7,31 @@ import {
   useEffect,
   useState,
 } from "react";
+import { getCurrentUser } from "../pages/functions";
 
-const API_URL = "/api";
+// const API_URL = "https://cors-anywhere.herokuapp.com/https://test.bss.nz/api";
+const API_URL = "https://test.bss.nz/api";
 
-type UserType = {
+export type UserType = {
   unid: string;
   username: string;
   passhash: string;
   token: string;
   admin: boolean;
   meta: {};
-};
-type authContextType = {
-  unid: string;
-  username: string;
-  passhash: string;
-  token: string;
-  admin: boolean;
-  meta: {};
+  data: string;
 } | null;
 
-type ContextState = { user: authContextType };
+const UserDefault = {
+  unid: '',
+  username: '',
+  passhash: '',
+  token: '',
+  admin: false,
+  meta: {},
+};
 
-const AuthContext = createContext<ContextState | undefined>(undefined);
+const AuthContext = createContext<UserType | undefined>(undefined);
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -41,34 +43,38 @@ type Props = {
 
 export function AuthProvider({ children }: Props) {
   const router = useRouter();
-  const [user, setUser] = useState<authContextType>();
+  const [user, setUser] = useState<UserType>();
   const { data: session, status } = useSession();
   // console.log(session, status);
-  
-  
 
-  const login = () => {};
+
+
+  const login = () => { };
 
   const logout = () => {
+    signOut()
     setUser(undefined);
   };
 
-  // useEffect(() => {
-  //   // console.log(status);
+  useEffect(() => {
+    if (session && session?.user) {
+      const token = session.user;
+      // console.log(token);
 
-  //   // if (status === 'unauthenticated') {
-  //   //     router.replace('/login')
-  //   // }
-
-  //   if (data && data?.user?.token) {
-  //     const token = data?.user?.userToken;
-  //     const fetch = async () => {
-  //       const currentUser = await getCurrentUser(token);
-  //       currentUser && setUser(currentUser);
-  //     };
-  //     fetch();
-  //   }
-  // }, [status, data, router]);
+      const fetch = async () => {
+        const res = await getCurrentUser(token);
+        // console.log(res);
+        
+        if (res.status === 500) {
+          alert(res.message);
+          router.push('/login')
+          return;
+        }
+        res && setUser(res.currentUser);
+      };
+      fetch();
+    }
+  }, [session]);
 
   const value = {
     user,
@@ -82,73 +88,22 @@ export function AuthProvider({ children }: Props) {
   );
 }
 
-function request<TResponse>(
+async function request<TResponse>(
   url: string,
   config: RequestInit = {}
 ): Promise<TResponse> {
-  return fetch(url, config)
-    .then((response) => response.json())
-    .then((data) => data as TResponse);
-}
+  return await fetch(url, config)
+    .then((response) => {
+      console.log(response.text);
 
-export const login = async (username: string, password: string) => {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-  try {
-    const user = {
-      unid: '0536fb969b9c15d82c36db99a90d2baa',
-      username: username,
-      passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
-      token: "0536fb969b9c15d82c36db99a90d2baa",
-      admin: false,
-      meta: {}
-    };
-    // const user = await request<authContextType>(
-    //   `${API_URL}/user/password/check`,
-    //   {
-    //     method: "POST",
-    //     headers,
-    //     body: JSON.stringify({ username, password }),
-    //   }
-    // );
-    return user;
-  } catch (error) {
-    throw new Error("Fetching users failed");
-  }
-};
-
-export const getAllUsers = async () => {
-  try {
-    const cuser = await request<authContextType>(`${API_URL}/user`);
-    return cuser;
-  } catch (error) {
-    throw new Error("Fetching users failed");
-  }
-};
-
-export const getCurrentUser = async (userToken: string) => {
-  const headers = { Authorization: userToken };
-  try {
-    const currentUser = await request<authContextType>(`${API_URL}/user/self`, {
-      headers,
+      return response.text
+      // return response.json() 
+    })
+    .then((data) => {
+      console.log(data);
+      return data as TResponse
     });
-    return currentUser;
-  } catch (error) {
-    throw new Error("Fetching users failed");
-  }
-};
-
-export const getUser = async (userToken: string) => {
-  try {
-    const user = await request<authContextType>(
-      `${API_URL}/user/token/${userToken}`
-    );
-    return user;
-  } catch (error) {
-    throw new Error("Fetching users failed");
-  }
-};
+}
 
 export const register = async (
   username: string,
@@ -156,23 +111,37 @@ export const register = async (
   admin = false,
   token?: string
 ) => {
+
   const headers: Record<string, string> = token
-    ? { "Content-Type": "application/json", Authorization: token }
-    : { "Content-Type": "application/json" };
-  try {
-    // const user = await request<authContextType>(`${API_URL}/user`, {
-    //   method: "POST",
-    //   headers: headers,
-    //   body: JSON.stringify({ username, password, admin }),
-    // });
-    const user = {
-      unid: '0536fb969b9c15d82c36db99a90d2baa',
-      username: username,
-      passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
-      token: "0536fb969b9c15d82c36db99a90d2baa",
-      admin: false,
-      meta: {}
+    ? {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Content-Type, Authorization',
+      'Access-Control-Allow-Methods': '*',
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+    : {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Content-Type, Authorization',
+      'Access-Control-Allow-Methods': '*',
+      "Content-Type": "application/json"
     };
+  try {
+    const user = await request<UserType>(`${API_URL}/user`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ username, password, admin }),
+    });
+    console.log(user);
+
+    // const user = {
+    //   unid: '0536fb969b9c15d82c36db99a90d2baa',
+    //   username: username,
+    //   passhash: 'sdlsdoi34klsdk3oljkl@#sdioeiflkil',
+    //   token: "0536fb969b9c15d82c36db99a90d2baa",
+    //   admin: false,
+    //   meta: {}
+    // };
     return user;
   } catch (error) {
     throw new Error("Registration failed");

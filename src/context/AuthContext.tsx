@@ -19,8 +19,21 @@ export type UserType = {
   token: string;
   admin: boolean;
   meta: {};
-  data: string;
 } | null;
+
+export type authContextType = {
+  user: UserType;
+  // setUser: () => void;
+  login: () => void;
+  logout: () => void;
+} | null;
+
+const authContextDefaultValues: authContextType = {
+  user: null,
+  // setUser: () => { },
+  login: () => { },
+  logout: () => { },
+};
 
 const UserDefault = {
   unid: '',
@@ -31,7 +44,7 @@ const UserDefault = {
   meta: {},
 };
 
-const AuthContext = createContext<UserType | undefined>(undefined);
+const AuthContext = createContext<authContextType>(authContextDefaultValues);
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -43,14 +56,16 @@ type Props = {
 
 export function AuthProvider({ children }: Props) {
   const router = useRouter();
-  const [user, setUser] = useState<UserType>();
-  const { data, status } = useSession();
+  const [user, setUser] = useState<UserType>(null);
+  // const { data, status } = useSession();
 
-  const login = () => { };
+  const login = () => {
+    router.push('/login')
+  };
 
   const logout = () => {
     signOut()
-    setUser(undefined);
+    setUser(null);
     router.push('/login')
   };
 
@@ -83,15 +98,14 @@ export function AuthProvider({ children }: Props) {
     // }
   }, [router, user]);
 
-  const value = {
-    user,
-    setUser,
-    login,
-    logout,
-  };
   return (
     <>
-      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+      <AuthContext.Provider value={{
+        user,
+        // setUser,
+        login,
+        logout,
+      }}>{children}</AuthContext.Provider>
     </>
   );
 }
@@ -135,7 +149,7 @@ export const register = async (
       "Content-Type": "application/json"
     };
   try {
-    const user = await request<UserType>(`${API_URL}/user`, {
+    const user = await request<authContextType>(`${API_URL}/user`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({ username, password, admin }),

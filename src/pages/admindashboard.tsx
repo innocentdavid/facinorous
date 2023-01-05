@@ -2,7 +2,7 @@
 import { NextPage } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getCurrentUser } from "./functions";
 // import { useAuth } from "../context/AuthContext";
@@ -10,35 +10,27 @@ import { getCurrentUser } from "./functions";
 const HomePage: NextPage = () => {
     const router = useRouter()
     const { data: session, status } = useSession();
-    const { user, setUser, logout } = useAuth();
+    const { user, logout } = useAuth();
 
-    // if (status === "unauthenticated") {
-    //     router.push('/login')
-    //     return <></>;
-    // }    
+    useEffect(() => {
+        if (status === "authenticated" && session?.user) {
+            if (!(session?.user?.admin) && session?.user?.unid) {
+                alert("You're not allowed to be here!");
+                router.push('/')
+            } else {
+                alert("Please login to continue");
+                router.push('/login')
+            }
+        }
+    }, [router, session?.user, status])
+
+
 
     if (status === "loading") {
         return <></>;
     }
-    if (status === "authenticated") {
-        // console.log(session);
 
-        // console.log(user);
-        if (!session?.user?.admin) {
-            if (session?.user?.unid) {
-                alert("You're not allowed to be here!")
-                router.push('/')
-                return;
-            }
-            router.push('/login')
-            return <></>;
-        }
-
-        if (!user.admin) {
-            router.push('/')
-            return <></>;
-        }
-
+    if (status === "authenticated" && session?.user?.admin) {
         return (
             <div className="flex items-center gap-10 p-10">
                 <div>Hello <span className="capitalize">{session?.user?.username},</span> Welcome to the admin dashboard!</div>
@@ -46,8 +38,10 @@ const HomePage: NextPage = () => {
             </div>
         );
     }
+
     if (status === "unauthenticated") {
-        router.push('/')
+        router.push('/login')
+        return (<></>)
     }
 };
 

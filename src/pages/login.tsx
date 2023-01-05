@@ -9,7 +9,7 @@ import { getCurrentUser } from './functions';
 export default function Login() {
     const router = useRouter()
     const { data: session, status } = useSession()
-    const { setUser } = useAuth();
+    // const { setUser } = useAuth();
     const [loginDetails, setLoginDetails] = useState({ username: '', password: '' })
     const [userDetails, setUserDetails] = useState({ username: '', password: '', cPassword: '' })
     const tabsData = [
@@ -32,7 +32,7 @@ export default function Login() {
         if (res.status === 200) {
             const session = await getSession();
             const user = session?.user;
-            setUser(user)
+            // setUser(user)
             if (user?.admin) {
                 router.push('/admindashboard')
                 document.querySelector('#generalLoading').classList.remove('grid')

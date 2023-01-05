@@ -25,7 +25,7 @@ const HomePage: NextPage = () => {
                 router.push('/login')
             }
         }
-    }, [session])
+    }, [router, session, status])
 
 
 

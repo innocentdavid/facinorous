@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getCurrentUser } from "../pages/functions";
+import { getCurrentUser } from "../common/components/functions";
 
 // const API_URL = "https://cors-anywhere.herokuapp.com/https://test.bss.nz/api";
 const API_URL = "https://test.bss.nz/api";

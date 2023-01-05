@@ -4,7 +4,7 @@ import { FaUser } from 'react-icons/fa'
 import { BsLock } from 'react-icons/bs'
 import { register, useAuth } from '../context/AuthContext';
 import { getSession, signIn, useSession } from 'next-auth/react';
-import { getCurrentUser } from './functions';
+import { getCurrentUser } from '../common/components/functions';
 
 export default function Login() {
     const router = useRouter()

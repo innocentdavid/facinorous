@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getCurrentUser, login } from "../../functions";
+import { getCurrentUser, login } from "../../../common/components/functions";
 // import { login } from "../../../context/AuthContext";
 
 // For more information on each option (and a full list of options) go to

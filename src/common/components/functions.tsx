@@ -1,4 +1,4 @@
-import { UserType } from "../context/AuthContext";
+import { UserType } from "../../context/AuthContext";
 
 // const API_URL = "https://cors-anywhere.herokuapp.com/https://test.bss.nz/api";
 const API_URL = "https://test.bss.nz/api";

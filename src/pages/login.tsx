@@ -43,8 +43,7 @@ export default function Login() {
                 document.querySelector('#generalLoading').classList.remove('grid')
                 document.querySelector('#generalLoading').classList.add('hidden')
             }else{
-                console.log(user);
-                
+                console.log(user);                
             }
             // console.log(token);
             // console.log(token === "Incorrect password");

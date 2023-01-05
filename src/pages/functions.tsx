@@ -3,7 +3,7 @@ import { UserType } from "../context/AuthContext";
 // const API_URL = "https://cors-anywhere.herokuapp.com/https://test.bss.nz/api";
 const API_URL = "https://test.bss.nz/api";
 
-async function jsonResRequest<TResponse>(
+export async function jsonResRequest<TResponse>(
     url: string,
     config: RequestInit = {}
 ): Promise<TResponse> {
@@ -14,7 +14,7 @@ async function jsonResRequest<TResponse>(
         });
 }
 
-async function textResRequest<TResponse>(
+export async function textResRequest<TResponse>(
     url: string,
     config: RequestInit = {}
 ): Promise<TResponse> {
